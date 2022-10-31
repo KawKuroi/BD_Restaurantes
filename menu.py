@@ -34,3 +34,5 @@ if __name__ == "__main__":
 
 #AXEL ME GUSTA
 #Juanse es gei
+
+# el costa es gei
