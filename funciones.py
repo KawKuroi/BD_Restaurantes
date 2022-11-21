@@ -1,6 +1,6 @@
 import Comandos_baseDatos as CBD
 from cmath import inf
-
+archivo = 'lector.txt'
 # ----------------------------------- FUNCION PARA DELIMITAR LA VARIABLE A NUMERO ENTERO Y PONER UN RANGO A ESE NUMERO -----------------
 def intLimitado(value,limite=inf,inicio=0):
     while True:
@@ -17,13 +17,17 @@ def intLimitado(value,limite=inf,inicio=0):
 
 # -------------------------------------------------- MOSTRANDO INFORMACION GENERAL DE RESTAURANTES --------------------------------
 def info_restaurantes():
+    txt = open(archivo,'w')
+    txt = open(archivo,mode ='a',encoding='utf-8')
     print('----------- INFO RESTAURANTES --------------')
     restaurantes = CBD.pullDatos('SELECT * FROM Restaurantes')
     for i in restaurantes:
-        print(f'{i[1]:15} Tipo de comida = {i[2]:15} Dirección = {i[3]:22} Rango de precios = {i[4]:3} a {i[5]:3}')
+        txt.writelines([str(i[1]),'..',str(i[2]),'..',str(i[3]),'..',str(i[4]),'..',str(i[5]),'\n'])
 
 # -------------------------------------------------- MOSTRANDO INFORMACION GENERAL DE CALIFICACIONES --------------------------------
 def calificaciones_restaurantes():
+    txt = open(archivo,'w')
+    txt = open(archivo,mode ='a',encoding='utf-8')
     print('----------- CALIFICACIONES --------------')
     to=[]
     restaurantes = CBD.pullDatos('SELECT nombre FROM Restaurantes')
@@ -38,12 +42,12 @@ def calificaciones_restaurantes():
         prom=round((sum(nota)/len(nota)),2)
         info={'nombre':x[0],'nota':prom,'comentarios':comentarios}
         to.append(info)            
-
+    
     for i in to:
-        print(i['nombre'] + ' --> ' + str(i['nota']) + '⭐ \nComentarios :')
+        l=[]
         for x in i['comentarios']:
-            print(f'\t{x}')
-        print('\n')
+            l.append(x)
+        txt.writelines([str(i['nombre']),'..',str(i['nota']),'..',str(l),'\n'])
 
 # ------------------------------------- FILTROS PARA LA BASE DE DATOS, RESTAURANTES Y CALIFICACIONES --------------------------------
 def filtros():

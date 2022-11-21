@@ -7,8 +7,7 @@ def main():
         + "2. Ver las calificaciones acerca de los resturantes.\n"
         + "3. Filtros de restaurantes.\n"
         + "4. Calificar restaurantes.\n"
-        + "5. Mostrar ubicaciones de los restaurantes.\n"
-        + "6. Salir del programa.\n"
+        + "5. Salir del programa.\n"
         + "Ingrese la opcion que desee:\n"),6,1)
 
         if opcion == 1:
@@ -23,10 +22,7 @@ def main():
         elif opcion == 4:
             Func.calificar_restaurantes()
         
-        elif opcion == 5:
-            Func.ubicaciones_restaurantes()
-        
-        elif opcion == 6:
+        elif opcion == 5    :
             quit("Gracias por usar el programa.")
 
 if __name__ == "__main__":
