@@ -1,5 +1,6 @@
 import funciones as Func
 from tkinter import *
+from tkinter import ttk
 
 archivo = 'lector.txt'
 
@@ -25,16 +26,34 @@ def opcion_01():
     forget() 
     global body
     body = Frame(root,bg='#6D9886',bd=0)
-    Scrollbar(body,orient="vertical").pack(side="right",fill="y")
-    Label(body, text='INFO RESTAURANTES', font=('Arial 20 bold'), fg='#F2E7D5', bg='#6D9886', pady=20).pack(fill=BOTH)
+
+    # CREACION DE CANVA PARA EL SCROLL
+
+    canva = Canvas(body)
+    scroll = Scrollbar(body,orient="vertical", command=canva.yview)
+    canva.configure(yscrollcommand=scroll.set)
+    canva.bind('<Configure>',lambda e : canva.configure(scrollregion=canva.bbox('all')))
+
+    # EL FRAME QUE SE VA A USAR
+
+    blank = Frame(canva,bg='#6D9886',bd=0)
+    canva.create_window((0,0),window=blank,width=int(widthROOT*0.85))
+
+    # INFO DE LA SECCION
+
+    Label(blank, text='INFO RESTAURANTES', font=('Arial 20 bold'), fg='#F2E7D5', bg='#6D9886', pady=50).pack(fill=BOTH)
     Func.info_restaurantes()
     txt = (open(archivo,'r',encoding='utf-8').readlines())
+
     for i in txt:
         separar=(i.replace('\n','')).split('..')
         print(separar)
-        Label(body, text=f'Restaurante = {separar[0]}\n\tTipo de comida = {separar[1]}\n\tDirección = {separar[2]}\n\tRango de precios = {separar[3]} a {separar[4]}', font=('Arial 15'), fg='#F7F7F7', bg='#6D9886', justify='left').pack(pady=10, side=TOP)
-    for i in range(0, 100):
-        Label(body, text='HOLA').pack()
+        Label(blank, text=f'Restaurante = {separar[0]}\nTipo de comida = {separar[1]}\nDirección = {separar[2]}\nRango de precios = {separar[3]} a {separar[4]}', font=('Arial 15'), fg='#393E46', bg='#F2E7D5', justify='left',pady=10).pack(pady=18,fill=BOTH)
+    
+    # IMPRIMIR
+
+    scroll.pack(side=RIGHT,fill='y')
+    canva.pack(side = LEFT,fill=BOTH, expand=YES)    
     body.place(relheight=1,relwidth=0.85,x=widthROOT*0.15)
 
 # ------------------------------------------------------------------ OPCION 02
@@ -43,18 +62,36 @@ def opcion_02():
     forget()
     global body
     body = Frame(root,bg='#6D9886',bd=0)
-    Scrollbar(body,orient="vertical").pack(side="right",fill="y")
-    Label(body, text='CALIFICACIONES', font=('Arial 20 bold'), fg='#F2E7D5', bg='#6D9886', pady=20).pack(fill=BOTH)
+
+    # CREACION DE CANVA PARA EL SCROLL
+    
+    canva = Canvas(body)
+    scroll = Scrollbar(body,orient="vertical", command=canva.yview)
+    canva.configure(yscrollcommand=scroll.set)
+    canva.bind('<Configure>',lambda e : canva.configure(scrollregion=canva.bbox('all')))
+
+    # EL FRAME QUE SE VA A USAR
+
+    blank = Frame(canva,bg='#6D9886',bd=0)
+    canva.create_window((0,0),window=blank,width=int(widthROOT*0.85))
+
+    Label(blank, text='CALIFICACIONES', font=('Arial 20 bold'), fg='#F2E7D5', bg='#6D9886', pady=20).pack(fill=BOTH)
     Func.calificaciones_restaurantes()
     txt = (open(archivo,'r',encoding='utf-8').readlines())
+
     for i in txt:
         separar=(i.replace('\n','')).split('..')
-        Label(body, text=f'Restaurante = {separar[0]}, Calificacion ⭐ = {separar[1]}, Comentarios =', font=('Arial 15'), fg='#F7F7F7', bg='#6D9886', justify='left').pack(pady=10, side=TOP)
+        Label(blank, text=f'Restaurante = {separar[0]}, Calificacion ⭐ = {separar[1]}, Comentarios =', font=('Arial 15'),  fg='#393E46', bg='#F2E7D5', justify='left',pady=10).pack(pady=18,fill=BOTH)
         a=((((separar[2].replace("['",'')).replace("]'",'')).replace("'",'')).replace("]",'')).split(',')
         print(a)
         for i in a:
-            Label(body, text=f'- {i}', font=('Arial 15'), fg='#F7F7F7', bg='#6D9886', justify='left').pack(pady=10, side=TOP)
-        Label(body, text=f'\n',bg='#6D9886').pack()
+            Label(blank, text=f'- {i}', font=('Arial 15'), fg='#F7F7F7', bg='#6D9886', justify='left').pack(pady=10, side=TOP)
+        Label(blank, text=f'\n',bg='#6D9886').pack()
+
+    # IMPRIMIR
+
+    scroll.pack(side=RIGHT,fill='y')
+    canva.pack(side = LEFT,fill=BOTH, expand=YES)    
     body.place(relheight=1,relwidth=0.85,x=widthROOT*0.15)
 
 # ------------------------------------------------------------------ OPCION 03
