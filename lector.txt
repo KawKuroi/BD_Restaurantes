@@ -1,6 +1,5 @@
-Toninos..4.67..['Es muy bueno el sabor ', 'Es deliciosa la comida y el servicio es espectacular', 'Me gusta mucho la velocidad con la que entregan la comida']
-Kfc..3.67..['Me gusta mucho el pollo, pero se demora mucho']
-Subway..4.67..['Se demora', 'Deliciosa la comida, 100% recomendado']
-Qbano..4.22..['Todo espectacular, 10/10 absolutamente todo', 'EL MEJOR RESTAURANTE DE BOGOTÁ Y DEL MUNDO MUNDIAL !!!!!!! MUY RIKOLINO', 'No me gusta la comida']
-Frisby..4.33..['Exquisito, muy recomendable']
-La lonchera..4.33..['El mejor sushi de mi vida']
+Hamburguesas
+Pasta
+Pollo
+Sandwiches
+Sushi

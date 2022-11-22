@@ -22,7 +22,7 @@ def main():
         elif opcion == 4:
             Func.calificar_restaurantes()
         
-        elif opcion == 5    :
+        elif opcion == 5:
             quit("Gracias por usar el programa.")
 
 if __name__ == "__main__":

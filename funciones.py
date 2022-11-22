@@ -50,32 +50,23 @@ def calificaciones_restaurantes():
         txt.writelines([str(i['nombre']),'..',str(i['nota']),'..',str(l),'\n'])
 
 # ------------------------------------- FILTROS PARA LA BASE DE DATOS, RESTAURANTES Y CALIFICACIONES --------------------------------
-def filtros():
-    opcion = intLimitado(input(f'--------------------------------------------\n'
-    + '1. Filtrar por tipo de comida\n'
-    + '2. Filtrar por rango de precio\n'
-    + '3. Filtrar por tiempos de espera promedio\n'
-    + '4. Filtrar por calificación promedio de calidad\n'
-    + '5. Filtrar por calificación promedio de atención\n'
-    + '6. Salir\n'
-    + 'Ingrese la opcion que desee:\n'),6,1)
+def filtros(opcion,selec=0):
     if opcion == 1:
+        txt = open(archivo,'w')
+        txt = open(archivo,mode ='a',encoding='utf-8')
         Tipo=CBD.pullDatos('SELECT Tipo FROM Restaurantes GROUP BY Tipo')
         posiciones={}
-        x=1
         print('Seleccione el un tipo de comida para filtrar restaurantes')
-        for i in Tipo:
-            print(f'\t{x}) {i[0]}')
+        for x,i in enumerate(Tipo,1):
+            txt.writelines([str(i[0]),'\n'])
             posiciones[x]=i[0]
-            x+=1
 
-        seleccionar=intLimitado(input(f'\nIngrese la opción deseada:\n'),x)
-        for pos,tipo in posiciones.items():
-            if seleccionar == pos:
-                filtrados=CBD.pullDatos(f'SELECT Nombre FROM Restaurantes WHERE Tipo = "{tipo}"')
-                print(f'------ RESTAURANTES CON TIPO DE COMIDA {tipo} ------\n')                
-                for i in filtrados:
-                    print('-->',i[0])
+        if selec != 0:
+            for pos,tipo in posiciones.items():
+                if selec == pos:
+                    filtrados=CBD.pullDatos(f'SELECT Nombre FROM Restaurantes WHERE Tipo = "{tipo}"')                
+                    for i in filtrados:
+                        print('-->',i[0])
 
     if opcion == 2:
         orden=intLimitado(input('¿Como desea organizar el rango de precios?\n'
@@ -134,7 +125,14 @@ def calificarR():
     elif Tiempo_Espera > 60:
         tiempo = 1
     return calidad,tiempo,atencion,comentario,Tiempo_Espera
-          
+
+def agregar_restaurante(Nombre,Tipo,Direccion,Valor_minimo,Valor_maximo): 
+    cantidad = CBD.pullDatos('SELECT COUNT(nombre) FROM Restaurantes')
+    CBD.pushDatos(f'INSERT INTO Restaurantes VALUES ("{cantidad[0][0]+1}","{Nombre}","{Tipo}","{Direccion}",{Valor_minimo},{Valor_maximo})')
+
+def agregar_calificacion(Nombre,calidad,tiempo,atencion,comentario,tiempo_espera):
+    CBD.pushDatos(f'INSERT INTO Calificaciones VALUES ("{Nombre}",{calidad},{tiempo},{atencion},"{comentario}",{tiempo_espera})')
+
 def calificar_restaurantes():
     print('¿El restaurante esta aqui?: ')
     restaurantes = CBD.pullDatos('SELECT * FROM Restaurantes')
@@ -191,7 +189,7 @@ def calificar_restaurantes():
             +'2.No\n'),2,1)
 
             if elegir == 1:
-                CBD.pushDatos(f'INSERT INTO Restaurantes VALUES ("{cantidad[0][0]+1}","{Nombre}","{Tipo}","{Direccion}",{Valor_minimo},{Valor_maximo})')
+                    
                 calidad,tiempo,atencion,comentario,tiempo_espera=calificarR()            
                 elegir = intLimitado(input('\n¿Está seguro de las opciones que eligió?\n'
                 + f'Nombre: {Nombre}, Calidad: {calidad}, Tiempo: {tiempo_espera}, Atención: {atencion}\nComentario: {comentario}\n'
@@ -206,9 +204,3 @@ def calificar_restaurantes():
                 return
         elif opcion == 3:
             return
-
-# ---------------------------------------------------------------------- PROXIMAMENTE, UBICACIONES CON MAPS --------------------------------
-def ubicaciones_restaurantes():
-    #MOSTRAR MAPA DE LAS UBICACIONES (SEGUN AXEL ES FACIL CON TKINTER)
-    pass
-# 200 lineas!!!
